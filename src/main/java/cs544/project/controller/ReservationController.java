@@ -22,7 +22,10 @@ public class ReservationController {
 	@Autowired
 	private ReservationServiceImpl reservationService;
 
-	
+	@GetMapping("/world")
+	public String helloWorld() {
+		return "hello";
+	}
 	@PostMapping
 	public Reservation saveReservation(@RequestBody Reservation user) {
 		return reservationService.create(user);
