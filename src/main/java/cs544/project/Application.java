@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
+
 //By using Springboot, we needn't any XML config, Java config
 // Doesn't have classpath scanning
 // When we run the application, Spring start from package which contains the MainApplication
@@ -18,6 +19,7 @@ public class Application {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
+		
 	}
 
 }
