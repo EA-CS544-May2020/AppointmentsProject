@@ -44,6 +44,10 @@ public class Reservation {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	
+	public Integer getId() {
+		return id;
+	}
 
 	public Date getDate() {
 		return date;

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cs544.project.domain.Appointment;
+import cs544.project.domain.Reservation;
 import cs544.project.repository.AppointmentRepository;
 import cs544.project.service.AppointmentService;
 
@@ -53,5 +54,23 @@ public class AppointmentServiceImpl implements  AppointmentService{
 	public void remove(Integer id) {
 		appointmentRepo.deleteById(id);		
 	}
-
+	
+	@Override
+	public List<Reservation> getReservations(Integer id){
+		Appointment appointment = getById(id);
+		return appointment.getReservations();
+	}
+	
+	@Override
+	public Reservation getReservations(Integer id, Integer id2){
+		Appointment appointment = getById(id);
+		List<Reservation> reservations = appointment.getReservations();
+		Optional<Reservation> reservation= reservations.stream().filter(reserve -> reserve.getId()==id).findAny();
+		if (reservation.isPresent()) {
+			return reservation.get();
+		} else {
+			return null;
+		}
+	}
 }
+
