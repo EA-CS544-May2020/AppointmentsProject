@@ -24,20 +24,30 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     //different API have different access requirements
     protected void configure(HttpSecurity http) throws Exception {
+//    	http.httpBasic().and()
+//        .csrf().disable().authorizeRequests()
+//    	.anyRequest().hasRole("USER")
+//    	.and().formLogin()
+//    	.and()
+//    	.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+//    	.logoutSuccessUrl("/");
     	http.authorizeRequests()
-    	.anyRequest().hasRole("USER")
-    	.and().formLogin()
-    	.and()
-    	.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-    	.logoutSuccessUrl("/");
-    	http.csrf().disable();
+        .anyRequest().authenticated()
+        .and().formLogin();
 	}
     
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) 
       throws Exception {
-        auth.inMemoryAuthentication().withUser("user")
-          .password(passwordEncoder().encode("user")).roles("USER");
+//        auth.inMemoryAuthentication().withUser("user")
+//          .password(passwordEncoder().encode("user")).roles("USER");
+        
+        auth
+	     .jdbcAuthentication()
+	     .dataSource(dataSource)
+	     .usersByUsernameQuery("select user.username as username, user.password as password, user.enabled as enabled from user where username = ?")
+	     .authoritiesByUsernameQuery("select user.username as username, user.email as role from user where username = ?");
+        
     }
 //   //Not encoding password
 //    @Bean
