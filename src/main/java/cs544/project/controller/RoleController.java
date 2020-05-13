@@ -2,6 +2,8 @@ package cs544.project.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +33,7 @@ public class RoleController {
 	}
 
 	@PostMapping
-	public Role saveRole(@RequestBody Role role) {
+	public Role saveRole(@Valid @RequestBody Role role) {
 		return roleService.create(role);
 	}
 
