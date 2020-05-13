@@ -18,17 +18,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 @Configuration
 //Method security
-@EnableGlobalMethodSecurity(
-//        The prePostEnabled property enables Spring Security pre/post annotations
-
-        prePostEnabled = true
-//        The securedEnabled property determines if the @Secured annotation should be enabled
-
-        //       securedEnabled = true,
-
-//        The jsr250Enabled property allows us to use the @RoleAllowed annotation
-        //       jsr250Enabled = true
-)
+//@EnableGlobalMethodSecurity(
+////        The prePostEnabled property enables Spring Security pre/post annotations
+//
+//        prePostEnabled = true
+////        The securedEnabled property determines if the @Secured annotation should be enabled
+//
+//        //       securedEnabled = true,
+//
+////        The jsr250Enabled property allows us to use the @RoleAllowed annotation
+//        //       jsr250Enabled = true
+//)
 
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
@@ -37,12 +37,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             DataSource dataSource;
 
     //different API have different access requirements
-    @Override
-	public void configure(HttpSecurity http) throws Exception {
+    protected void configure(HttpSecurity http) throws Exception {
 //    	http.antMatcher("/**").authorizeRequests().anyRequest().hasRole("USER").and().formLogin();
 //    	http.authorizeRequests().anyRequest().authenticated().and().httpBasic();
     	http.authorizeRequests().anyRequest().hasRole("USER").and().httpBasic();
-
+    	http.csrf().disable();
 	}
 
 //    @Override
@@ -55,7 +54,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) 
       throws Exception {
         auth.inMemoryAuthentication().withUser("user")
-          .password("user").roles("USER");
+          .password(passwordEncoder().encode("user")).roles("USER");
     }
 //   //Not encoding password
 //    @Bean
