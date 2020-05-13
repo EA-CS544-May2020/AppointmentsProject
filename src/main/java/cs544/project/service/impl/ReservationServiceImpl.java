@@ -1,8 +1,10 @@
 package cs544.project.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,9 +15,9 @@ import cs544.project.service.IReservationService;
 
 @Service
 @Transactional
-//public class ReservationServiceImpl extends BaseReadServiceImpl<ReservationResponse, Reservation, Integer> implements IReservationService{
 public class ReservationServiceImpl implements IReservationService{
-
+	ModelMapper modelMapper = new ModelMapper();
+	
 	@Autowired
 	private ReservationRepository reservationRepo;
 	
@@ -29,6 +31,7 @@ public class ReservationServiceImpl implements IReservationService{
 	public Reservation getById(Integer id) {
 		Optional<Reservation> reservation =  reservationRepo.findById(id);
 		if(reservation.isPresent()) {
+			//return modelMapper.map(reservation, OrderDTO.class);
 			return reservation.get();
 		}
 		else {
@@ -53,6 +56,22 @@ public class ReservationServiceImpl implements IReservationService{
 	public void remove(Integer id) {
 		reservationRepo.deleteById(id);
 		
+	}
+
+	@Override
+	public List<Reservation> getReservationsByStatus(String status) {
+		return reservationRepo.findByStatus(status);
+	}
+
+	@Override
+	public Reservation findByDateAndTime(Date date, Date time) {
+		Optional<Reservation> reservation =  reservationRepo.findByDateAndTime(date, time);
+		if(reservation.isPresent()) {
+			return reservation.get();
+		}
+		else {
+			return null;
+		}
 	}
 
 }

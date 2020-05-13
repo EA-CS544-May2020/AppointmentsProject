@@ -1,6 +1,10 @@
 package cs544.project.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,17 +22,22 @@ public class ReservationController {
 	@Autowired
 	private ReservationServiceImpl reservationService;
 
+	@GetMapping
+	public List<Reservation> getList() {
+		return reservationService.getAll();
+	}
+	
 	@GetMapping(value = "/{id}")
-	public Reservation getReservation(@PathVariable Integer id) {
-		return reservationService.getById(id);
+	public ResponseEntity<Reservation> getReservation(@PathVariable Integer id) {
+		Reservation resv = reservationService.getById(id);
+		return ResponseEntity.status(HttpStatus.OK).body(resv);
 	}
 	
-	@PostMapping
-	public Reservation saveReservation(@RequestBody Reservation user) {
-		return reservationService.create(user);
-	}
-	
-
+//	@PostMapping
+//	public Reservation saveReservation(@RequestBody Reservation reservation) {
+//		
+//		return reservationService.create(reservation);
+//	}
 	
 	@PostMapping(value = "/update")
 	public Reservation Reservation(@RequestBody Reservation reservation) {

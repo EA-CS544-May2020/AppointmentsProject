@@ -10,6 +10,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 public class Reservation {
 	@Id
@@ -17,9 +19,11 @@ public class Reservation {
 	private Integer id;
 	
 	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date date;
 	
 	@Temporal(TemporalType.TIME)
+	@JsonFormat(pattern="HH:mm:ss")
 	private Date time;
 	
 	private String status;
@@ -27,10 +31,6 @@ public class Reservation {
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
-	
-	@ManyToOne
-	@JoinColumn(name = "appointment_id")
-	private Appointment appointment;
 
 	public Reservation() {}
 			
@@ -79,14 +79,6 @@ public class Reservation {
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-
-	public Appointment getAppointment() {
-		return appointment;
-	}
-
-	public void setAppointment(Appointment appointment) {
-		this.appointment = appointment;
 	}
 
 }

@@ -1,6 +1,7 @@
 package cs544.project.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,12 +16,16 @@ import org.springframework.web.bind.annotation.RestController;
 import cs544.project.domain.Appointment;
 import cs544.project.domain.Reservation;
 import cs544.project.service.impl.AppointmentServiceImpl;
+import cs544.project.service.impl.ReservationServiceImpl;
 
 @RestController
 @RequestMapping("/appointments")
 public class AppointmentController {
 	@Autowired
 	private AppointmentServiceImpl appointmentService;
+	
+	@Autowired
+	private ReservationServiceImpl reservationService;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public List<Appointment> getAppointments() {
@@ -55,6 +60,29 @@ public class AppointmentController {
 	@GetMapping(value = "/{id}/reservations/{id2}")
 	public Reservation getReservation(@PathVariable Integer id, @PathVariable Integer id2) {
 		return appointmentService.getReservations(id,id2);
+	}
+	
+	@PostMapping(value = "/{id}/reservations")
+	public Appointment saveReservation(@PathVariable Integer id, @RequestBody Reservation reservation) {
+		//1. check reservation is duplicate
+		Reservation reserDb = reservationService.findByDateAndTime(reservation.getDate(), reservation.getTime());
+		if(reserDb != null) {
+		
+		//2. get appointment by Id
+		Appointment appointment = appointmentService.getById(id);
+		
+		//3. add the reservation to list
+		appointment.setReservation(reservation);
+		
+		//3. update appointment to save the reservation
+		return appointmentService.update(appointment);
+		}
+		else {
+			//response an exception
+			
+			return null;
+		}
+		
 	}
 }
 
