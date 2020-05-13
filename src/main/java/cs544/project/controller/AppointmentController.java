@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import cs544.project.domain.Appointment;
+import cs544.project.domain.Reservation;
 import cs544.project.service.impl.AppointmentServiceImpl;
+import cs544.project.service.impl.ReservationServiceImpl;
 
 @RestController
 @RequestMapping("/appointments")
@@ -22,28 +24,29 @@ public class AppointmentController {
 	@Autowired
 	private AppointmentServiceImpl appointmentService;
 	
-	@RequestMapping(method = RequestMethod.GET)
-	public List<Appointment> getAppointments() {
-		return appointmentService.getAll();
-	}
+	
 
 	@PostMapping
 	public Appointment saveAppointment(@RequestBody Appointment appointment) {
 		return appointmentService.create(appointment);
 	}
 
-	@GetMapping(value = "/{id}")
-	public Appointment getAppointment(@PathVariable Integer id) {
-		return appointmentService.getById(id);
-	}
+	
 
 	@PostMapping(value = "/update")
 	public Appointment updateAppointment(@RequestBody Appointment appointment) {
 		return appointmentService.update(appointment);
 	}
 	
-	@DeleteMapping(value = "/{id}")
-	public void removeAppointment(@PathVariable Integer id) {
-		appointmentService.remove(id);
+	
+	
+	@GetMapping(value = "/{id}/reservations")
+	public List<Reservation> getReservations(@PathVariable Integer id) {
+		return appointmentService.getReservations(id);
+	}
+	
+	@GetMapping(value = "/{id}/reservations/{id2}")
+	public Reservation getReservation(@PathVariable Integer id, @PathVariable Integer id2) {
+		return appointmentService.getReservations(id,id2);
 	}
 }
