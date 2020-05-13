@@ -3,12 +3,14 @@ package cs544.project.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.UniqueConstraint;
 
 @Entity
 public class User {
@@ -17,18 +19,19 @@ public class User {
 	private Integer userid;
 	private String firstName;
 	private String lastName;
+	@Column(unique = true,length = 20)
 	private String email;
 	private String gender;
 	private String username;
 	private String password;
-	
+
 	@ManyToMany
-	@JoinTable(name = "User_Role", 
-		joinColumns = {@JoinColumn(name = "userid")}, 
-		inverseJoinColumns = {@JoinColumn(name = "roleid")} )
+	@JoinTable(name = "User_Role", joinColumns = { @JoinColumn(name = "userid") }, inverseJoinColumns = {
+			@JoinColumn(name = "roleid") })
 	private List<Role> roles = new ArrayList<Role>();
-	
-	public User() {}
+
+	public User() {
+	}
 
 	public User(String firstName, String lastName, String email, String gender, String username, String password) {
 		super();
@@ -92,7 +95,6 @@ public class User {
 		this.password = password;
 	}
 
-
 	public List<Role> getRoles() {
 		return roles;
 	}
@@ -100,5 +102,5 @@ public class User {
 	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
-	
+
 }
