@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 public class Appointment {
 	@Id
@@ -20,9 +22,11 @@ public class Appointment {
 	private Integer id;
 	
 	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date date;
 	
 	@Temporal(TemporalType.TIME)
+	@JsonFormat(pattern="HH:mm:ss")
 	private Date time;
 	
 	private String location;
