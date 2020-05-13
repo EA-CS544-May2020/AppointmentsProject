@@ -28,9 +28,9 @@ public class Reservation {
 	@JoinColumn(name = "user_id")
 	private User user;
 	
-//	@ManyToOne
-//	@JoinColumn(name = "appointment_id")
-//	private Appointment appointment;
+	@ManyToOne
+	@JoinColumn(name = "appointment_id")
+	private Appointment appointment;
 
 	public Reservation() {}
 			
@@ -77,5 +77,12 @@ public class Reservation {
 		this.user = user;
 	}
 
+	public Appointment getAppointment() {
+		return appointment;
+	}
+
+	public void setAppointment(Appointment appointment) {
+		this.appointment = appointment;
+	}
 
 }
