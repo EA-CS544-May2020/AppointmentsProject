@@ -19,8 +19,8 @@ public class ReservationController {
 	private ReservationServiceImpl reservationService;
 
 	@GetMapping(value = "/{id}")
-	public void getReservation(@PathVariable Integer id) {
-		reservationService.getById(id);
+	public Reservation getReservation(@PathVariable Integer id) {
+		return reservationService.getById(id);
 	}
 	
 	@PostMapping
