@@ -14,25 +14,24 @@ import cs544.project.service.IUserService;
 
 @Service
 @Transactional
-public class UserServiceImpl implements IUserService{
+public class UserServiceImpl implements IUserService {
 
 	@Autowired
 	private UserRepository userRepo;
-	
+
 	@Override
 	public List<User> getAll() {
-		
+
 		return userRepo.findAll();
 	}
 
 	@Override
 	public User getById(Integer id) {
-		
-		Optional<User> user =  userRepo.findById(id);
-		if(user.isPresent()) {
+
+		Optional<User> user = userRepo.findById(id);
+		if (user.isPresent()) {
 			return user.get();
-		}
-		else {
+		} else {
 			return null;
 		}
 	}
@@ -44,16 +43,21 @@ public class UserServiceImpl implements IUserService{
 
 	@Override
 	public User update(User user) {
-		//1 get by Id return userIndb
-		//2 merge user to userindb
-		//3 save userIndb
-		return user;
+		User oldUser = getById(user.getUserid());
+		oldUser.setEmail(user.getEmail());
+		oldUser.setFirstName(user.getFirstName());
+		oldUser.setGender(user.getGender());
+		oldUser.setLastName(user.getLastName());
+		oldUser.setPassword(user.getPassword());
+		oldUser.setRoles(user.getRoles());
+		oldUser.setUsername(user.getUsername());
+		return userRepo.save(oldUser);
 	}
 
 	@Override
 	public void remove(Integer id) {
 		userRepo.deleteById(id);
-		
+
 	}
 
 }

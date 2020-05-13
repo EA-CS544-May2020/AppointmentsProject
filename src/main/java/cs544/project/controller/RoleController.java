@@ -6,40 +6,43 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import cs544.project.domain.User;
-import cs544.project.service.impl.UserServiceImpl;
+import cs544.project.domain.Role;
+
+import cs544.project.service.impl.RoleServiceImpl;
 
 @RestController
-@RequestMapping("/users")
-public class UserController {
+@RequestMapping("/roles")
+public class RoleController {
 
 	@Autowired
-	private UserServiceImpl userService;
+	private RoleServiceImpl roleService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public List<User> getUsers() {
+	public List<Role> getRole() {
 
-		return userService.getAll();
+		return roleService.getAll();
 	}
 
 	@PostMapping
-	public User saveUser(@RequestBody User user) {
-		return userService.create(user);
+	public Role saveRole(@RequestBody Role role) {
+		return roleService.create(role);
 	}
 
 	@GetMapping(value = "/{id}")
-	public User getUser(@PathVariable Integer id) {
-		return userService.getById(id);
+	public Role getRole(@PathVariable Integer id) {
+		return roleService.getById(id);
 	}
 
 	@PostMapping(value = "/update")
-	public User updateUser(@RequestBody User user) {
-		return userService.update(user);
+	public Role updateRole(@RequestBody Role role) {
+		return roleService.update(role);
 	}
+
 }
