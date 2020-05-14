@@ -12,26 +12,30 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class User {
 	@Id
 	@GeneratedValue
 	private Integer userid;
-	@Column(nullable = false)
+	@NotBlank(message = "First Name cannot be null or blank")
 	private String firstName;
-	@Column(nullable = false)
+	@NotBlank(message = "Last Name cannot be null or blank")
 	private String lastName;
 	@Column(unique = true, length = 20)
 	@Email(message = "Email should be valid")
+	@NotBlank(message = "Email cannot be null or blank")
 	private String email;
-	@Column(nullable = false)
+	@NotBlank(message = "Gender cannot be null or blank")
 	private String gender;
-	@Column(nullable = false)
+	@NotBlank(message = "UserName cannot be null or blank")
 	private String username;
-	@Column(nullable = false)
+	@NotBlank(message = "Password cannot be null or blank")
 	private String password;
 	@Column(name = "enabled", columnDefinition = "boolean default true", nullable = false)
+	@NotNull(message = "enabled cannot be null")
 	private boolean enabled = true;
 
 	public boolean isEnabled() {
