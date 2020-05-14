@@ -3,11 +3,12 @@ package cs544.project.service;
 import java.util.List;
 
 import cs544.project.domain.User;
+import cs544.project.service.response.UserResponse;
 
 public interface IUserService {
-	List<User> getAll();
+	List<UserResponse> getAll();
 
-	User getById(Integer userid);
+	UserResponse getById(Integer userid);
 
 	User create(User user);
 

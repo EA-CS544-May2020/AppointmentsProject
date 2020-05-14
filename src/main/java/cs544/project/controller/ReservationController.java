@@ -30,8 +30,8 @@ public class ReservationController {
 	}
 
 	@PostMapping
-	public Reservation saveReservation(@RequestBody Reservation user) {
-		return reservationService.create(user);
+	public Reservation saveReservation(@RequestBody Reservation reservation) {
+		return reservationService.create(reservation);
 	}
 	
 	@GetMapping

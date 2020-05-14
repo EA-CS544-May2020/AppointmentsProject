@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cs544.project.domain.User;
 import cs544.project.service.impl.UserServiceImpl;
+import cs544.project.service.response.UserResponse;
 
 @RestController
 @RequestMapping("/users")
@@ -23,7 +24,7 @@ public class UserController {
 	private UserServiceImpl userService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public List<User> getUsers() {
+	public List<UserResponse> getUsers() {
 
 		return userService.getAll();
 	}
@@ -34,7 +35,7 @@ public class UserController {
 	}
 
 	@GetMapping(value = "/{id}")
-	public User getUser(@PathVariable Integer id) {
+	public UserResponse getUser(@PathVariable Integer id) {
 		return userService.getById(id);
 	}
 
