@@ -15,6 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 import cs544.project.domain.Appointment;
 import cs544.project.domain.Reservation;
 import cs544.project.service.impl.AppointmentServiceImpl;
+<<<<<<< Updated upstream
+=======
+import cs544.project.service.impl.ReservationServiceImpl;
+import cs544.project.service.response.AppointmentResponse;
+>>>>>>> Stashed changes
 
 @RestController
 @RequestMapping("/appointments")
@@ -23,7 +28,7 @@ public class AppointmentController {
 	private AppointmentServiceImpl appointmentService;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public List<Appointment> getAppointments() {
+	public List<AppointmentResponse> getAppointments() {
 		return appointmentService.getAll();
 	}
 
@@ -43,7 +48,7 @@ public class AppointmentController {
 	}
 
 	@GetMapping(value = "/{id}")
-	public Appointment getAppointment(@PathVariable Integer id) {
+	public AppointmentResponse getAppointment(@PathVariable Integer id) {
 		return appointmentService.getById(id);
 	}
 
@@ -73,7 +78,33 @@ public class AppointmentController {
 	
 	@GetMapping(value = "/{id}/reservations/{id2}")
 	public Reservation getReservation(@PathVariable Integer id, @PathVariable Integer id2) {
+<<<<<<< Updated upstream
 		return appointmentService.getReservation(id,id2);
+=======
+		return appointmentService.getReservations(id,id2);
+	}
+	
+	@PostMapping(value = "/{id}/reservations")
+	public ResponseEntity<Object> saveReservation(@PathVariable Integer id, @RequestBody Reservation reservation) {
+		//1. check reservation is overlapped
+		Reservation reserDb = reservationService.findByDateAndTime(reservation.getDate(), reservation.getTime(), "ACCEPTED", reservation.getUser().getUserid());
+		if(reserDb == null) {
+		//2. get appointment by Id
+		Appointment appointmentDb = appointmentService.getwithId(id);
+		
+		//3. add the reservation to list
+		appointmentDb.setReservation(reservation);
+		
+		//3. update appointment to save the reservation
+		Appointment updateApp = appointmentService.update(appointmentDb);
+		return new ResponseEntity<Object>(updateApp, HttpStatus.OK);
+		}
+		else {
+			//response an exception
+			return new ResponseEntity<Object>(new CustomException("The reservation is overlapped", "500"), HttpStatus.OK);
+		}
+		
+>>>>>>> Stashed changes
 	}
 }
 
