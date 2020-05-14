@@ -28,8 +28,18 @@ public class AppointmentController {
 	}
 
 	@PostMapping
-	public Appointment saveAppointment(@RequestBody Appointment appointment) {
-		return appointmentService.create(appointment);
+	public ResponseEntity<Object> saveAppointment(@RequestBody Appointment appointment) {
+		//check if the appointment exist
+		Appointment app = appointmentService.findIdenticalAppointment(appointment.getDate(), 
+				appointment.getTime(), appointment.getLocation().trim());
+		if(app == null) {
+			Appointment savedAppt = appointmentService.create(appointment);
+			System.out.println("Blein" + app);
+			return new ResponseEntity<Object>(savedAppt, HttpStatus.OK);
+		} else {
+			//response an exception
+			return new ResponseEntity<Object>(new CustomException("Identical appointment already exist.", "500"), HttpStatus.OK);
+		}
 	}
 
 	@GetMapping(value = "/{id}")
@@ -38,8 +48,17 @@ public class AppointmentController {
 	}
 
 	@PostMapping(value = "/update")
-	public Appointment updateAppointment(@RequestBody Appointment appointment) {
-		return appointmentService.update(appointment);
+	public ResponseEntity<Object> updateAppointment(@RequestBody Appointment appointment) {
+		//check if the appointment exist
+		Appointment app = appointmentService.findIdenticalAppointment(appointment.getDate(), 
+				appointment.getTime(), appointment.getLocation().trim());
+		if(app == null) {
+			Appointment savedAppt = appointmentService.create(appointment);
+			return new ResponseEntity<Object>(savedAppt, HttpStatus.OK);
+		} else {
+			//response an exception
+			return new ResponseEntity<Object>(new CustomException("Identical appointment already exist.", "500"), HttpStatus.OK);
+		}
 	}
 	
 	@DeleteMapping(value = "/{id}")
@@ -54,7 +73,7 @@ public class AppointmentController {
 	
 	@GetMapping(value = "/{id}/reservations/{id2}")
 	public Reservation getReservation(@PathVariable Integer id, @PathVariable Integer id2) {
-		return appointmentService.getReservations(id,id2);
+		return appointmentService.getReservation(id,id2);
 	}
 }
 

@@ -1,5 +1,7 @@
 package cs544.project.service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import cs544.project.domain.Appointment;
@@ -13,5 +15,6 @@ public interface AppointmentService {
 	Appointment update(Appointment appointment);
 	void remove(Integer id);
 	public List<Reservation> getReservations(Integer id);
-	public Reservation getReservations(Integer id, Integer id2);
+	public Reservation getReservation(Integer id, Integer id2);
+	public Appointment findIdenticalAppointment(LocalDate date, LocalTime time, String location);
 }
