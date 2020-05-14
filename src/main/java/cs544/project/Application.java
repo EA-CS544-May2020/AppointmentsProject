@@ -14,7 +14,7 @@ import org.springframework.context.annotation.ComponentScan;
 // , including the outside reference classpath(package)
 
 @SpringBootApplication
-@ComponentScan(basePackages = "edu.miu.common, cs544.project")
+@ComponentScan(basePackages = "cs544.project")
 public class Application {
 
 	public static void main(String[] args) {
