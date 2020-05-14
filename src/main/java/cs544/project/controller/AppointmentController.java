@@ -1,9 +1,10 @@
 package cs544.project.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cs544.project.domain.Appointment;
 import cs544.project.domain.Reservation;
+import cs544.project.exceptions.CustomException;
 import cs544.project.service.impl.AppointmentServiceImpl;
 import cs544.project.service.impl.ReservationServiceImpl;
 
@@ -63,24 +65,23 @@ public class AppointmentController {
 	}
 	
 	@PostMapping(value = "/{id}/reservations")
-	public Appointment saveReservation(@PathVariable Integer id, @RequestBody Reservation reservation) {
-		//1. check reservation is duplicate
-		Reservation reserDb = reservationService.findByDateAndTime(reservation.getDate(), reservation.getTime());
-		if(reserDb != null) {
-		
+	public ResponseEntity<Object> saveReservation(@PathVariable Integer id, @RequestBody Reservation reservation) {
+		//1. check reservation is overlapped
+		Reservation reserDb = reservationService.findByDateAndTime(reservation.getDate(), reservation.getTime(), "ACCEPTED", reservation.getUser().getUserid());
+		if(reserDb == null) {
 		//2. get appointment by Id
-		Appointment appointment = appointmentService.getById(id);
+		Appointment appointmentDb = appointmentService.getById(id);
 		
 		//3. add the reservation to list
-		appointment.setReservation(reservation);
+		appointmentDb.setReservation(reservation);
 		
 		//3. update appointment to save the reservation
-		return appointmentService.update(appointment);
+		Appointment updateApp = appointmentService.update(appointmentDb);
+		return new ResponseEntity<Object>(updateApp, HttpStatus.OK);
 		}
 		else {
 			//response an exception
-			
-			return null;
+			return new ResponseEntity<Object>(new CustomException("The reservation is overlapped", "500"), HttpStatus.OK);
 		}
 		
 	}

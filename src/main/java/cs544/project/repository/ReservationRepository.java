@@ -1,6 +1,5 @@
 package cs544.project.repository;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +17,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
 	@Query(value = "SELECT * FROM Reservation r WHERE r.status = :status", nativeQuery = true)
 	public List<Reservation> findByStatus(@Param("status") String status);
 	
-	@Query(value = "SELECT * FROM Reservation r WHERE r.date = :date AND r.time = :time", nativeQuery = true)
-	public Optional<Reservation> findByDateAndTime(@Param("date") Date date, @Param("time") Date time);
+	@Query(value = "SELECT * FROM Reservation r WHERE r.date = :date AND r.time = :time AND (r.status = :status OR user_id = :user_id)", nativeQuery = true)
+	public Optional<Reservation> findByDateAndTime(@Param("date") String date, @Param("time") String time , @Param("status") String status, @Param("user_id") Integer userId);
 }
