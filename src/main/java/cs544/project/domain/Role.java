@@ -10,11 +10,12 @@ public class Role {
 	@Id
 	@GeneratedValue
 	private Integer id;
-	@NotBlank
+	@NotBlank(message = "name cannot be null or blank")
 	private String name;
 
-	public Role() {}
-	
+	public Role() {
+	}
+
 	public Role(String name) {
 		this.name = name;
 	}
@@ -30,6 +31,5 @@ public class Role {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
+
 }
