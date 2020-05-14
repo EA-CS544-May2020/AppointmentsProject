@@ -1,15 +1,19 @@
 package cs544.project.domain;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class Appointment {
@@ -17,11 +21,11 @@ public class Appointment {
 	@GeneratedValue
 	private Integer id;
 	
-	@Temporal(TemporalType.DATE)
-	private Date date;
+	@JsonFormat(pattern="yyyy-MM-dd")
+	private LocalDate date;
 	
-	@Temporal(TemporalType.TIME)
-	private Date time;
+	@JsonFormat(pattern="HH:mm:ss")
+	private LocalTime time;
 	
 	private String location;
 	
@@ -29,30 +33,31 @@ public class Appointment {
 	@JoinColumn(name = "user_id")
 	private User user;
 
-//	@OneToMany(mappedBy = "appointment")
-//	private List<Reservation> reservations = new ArrayList<Reservation>();
+	@OneToMany(cascade = {CascadeType.MERGE, CascadeType.REMOVE})
+	@JoinColumn(name = "appointment_id")
+	private List<Reservation> reservations = new ArrayList<Reservation>();
 	
 	public Appointment() {}
 			
-	public Appointment(Date date, Date time, String location) {
+	public Appointment(LocalDate date, LocalTime time, String location) {
 		this.date = date;
 		this.time = time;
 		this.location = location;
 	}
 
-	public Date getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 
-	public Date getTime() {
+	public LocalTime getTime() {
 		return time;
 	}
 
-	public void setTime(Date time) {
+	public void setTime(LocalTime time) {
 		this.time = time;
 	}
 
@@ -75,7 +80,16 @@ public class Appointment {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	public List<Reservation> getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(List<Reservation> reservations) {
+		this.reservations = reservations;
+	}
 	
-	
-	
+	public void setReservation(Reservation reservation) {
+		this.reservations.add(reservation);
+	}
 }

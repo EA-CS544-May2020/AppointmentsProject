@@ -1,14 +1,16 @@
 package cs544.project.domain;
 
-import java.util.Date;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class Reservation {
@@ -16,25 +18,21 @@ public class Reservation {
 	@GeneratedValue
 	private Integer id;
 	
-	@Temporal(TemporalType.DATE)
-	private Date date;
+	@JsonFormat(pattern="yyyy-MM-dd")
+	private LocalDate date;
 	
-	@Temporal(TemporalType.TIME)
-	private Date time;
+	@JsonFormat(pattern="HH:mm:ss")
+	private LocalTime time;
 	
 	private String status;
 	
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
-	
-//	@ManyToOne
-//	@JoinColumn(name = "appointment_id")
-//	private Appointment appointment;
 
 	public Reservation() {}
 			
-	public Reservation(Date date, Date time, String status) {
+	public Reservation(LocalDate date, LocalTime time, String status) {
 		super();
 		this.date = date;
 		this.time = time;
@@ -44,20 +42,24 @@ public class Reservation {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	
+	public Integer getId() {
+		return id;
+	}
 
-	public Date getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 
-	public Date getTime() {
+	public LocalTime getTime() {
 		return time;
 	}
 
-	public void setTime(Date time) {
+	public void setTime(LocalTime time) {
 		this.time = time;
 	}
 
@@ -76,6 +78,5 @@ public class Reservation {
 	public void setUser(User user) {
 		this.user = user;
 	}
-
 
 }
