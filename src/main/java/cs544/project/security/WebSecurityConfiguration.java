@@ -2,6 +2,7 @@ package cs544.project.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -25,7 +26,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 			.antMatchers("/").permitAll()
 	        .antMatchers("/login").permitAll()
-	        .antMatchers("/appointments/{\\d+}/reservations").hasAuthority("STUDENT")
+	        .antMatchers(HttpMethod.POST,"/appointments/{\\d+}/reservations").hasAuthority("STUDENT")
+	        .antMatchers(HttpMethod.GET,"/appointments/{\\d+}/reservations").hasAuthority("CHECKER")
 	        .antMatchers("/reservations/**").hasAnyAuthority("STUDENT", "CHECKER")
 			.antMatchers("/users/**", "/appointments/**","/roles/**").hasAuthority("CHECKER")
 	        

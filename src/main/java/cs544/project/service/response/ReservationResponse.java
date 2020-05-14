@@ -12,11 +12,11 @@ public class ReservationResponse implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	@Temporal(TemporalType.DATE)
+	//@Temporal(TemporalType.DATE)
 	//@JsonFormat(pattern="yyyy-MM-dd")
 	public Date date;
 	
-	@Temporal(TemporalType.TIME)
+	//@Temporal(TemporalType.TIME)
 	//@JsonFormat(pattern="HH:mm:ss")
 	public Date time;
 	
