@@ -11,18 +11,25 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Email;
 
 @Entity
 public class User {
 	@Id
 	@GeneratedValue
 	private Integer userid;
+	@Column(nullable = false)
 	private String firstName;
+	@Column(nullable = false)
 	private String lastName;
 	@Column(unique = true, length = 20)
+	@Email(message = "Email should be valid")
 	private String email;
+	@Column(nullable = false)
 	private String gender;
+	@Column(nullable = false)
 	private String username;
+	@Column(nullable = false)
 	private String password;
 	@Column(name = "enabled", columnDefinition = "boolean default true", nullable = false)
 	private boolean enabled = true;

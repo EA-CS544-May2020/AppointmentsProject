@@ -56,6 +56,7 @@ public class UserServiceImpl implements IUserService {
 		oldUser.setPassword(passwordEncoder.encode(user.getPassword()));
 		oldUser.setRoles(user.getRoles());
 		oldUser.setUsername(user.getUsername());
+		oldUser.setEnabled(user.isEnabled());
 		return userRepo.save(oldUser);
 	}
 
