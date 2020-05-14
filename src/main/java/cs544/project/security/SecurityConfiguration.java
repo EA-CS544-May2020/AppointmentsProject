@@ -31,9 +31,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //    	.and()
 //    	.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 //    	.logoutSuccessUrl("/");
-    	http.authorizeRequests()
+    	http.httpBasic().and().csrf().disable().authorizeRequests()
         .anyRequest().authenticated()
-        .and().formLogin();
+        .and().formLogin().and()
+    	.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+    	.logoutSuccessUrl("/");
 	}
     
     @Autowired
@@ -47,6 +49,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	     .dataSource(dataSource)
 	     .usersByUsernameQuery("select user.username as username, user.password as password, user.enabled as enabled from user where username = ?")
 	     .authoritiesByUsernameQuery("select user.username as username, user.email as role from user where username = ?");
+//	     .authoritiesByUsernameQuery("select user.username as username, user.roles.name as role from user where username = ?");
         
     }
 //   //Not encoding password
