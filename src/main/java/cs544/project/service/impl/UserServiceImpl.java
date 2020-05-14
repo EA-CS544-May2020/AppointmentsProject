@@ -23,7 +23,7 @@ public class UserServiceImpl implements IUserService {
 
 	@Autowired
 	private UserRepository userRepo;
-	
+
 	@Autowired
 	UserResponseMapper userResponseMapper;
 
@@ -63,11 +63,12 @@ public class UserServiceImpl implements IUserService {
 			oldUser.setPassword(passwordEncoder.encode(user.getPassword()));
 			oldUser.setRoles(user.getRoles());
 			oldUser.setUsername(user.getUsername());
+			oldUser.setEnabled(user.isEnabled());
 			return userRepo.save(oldUser);
 		} else {
 			return null;
 		}
-		
+
 	}
 
 	@Override
