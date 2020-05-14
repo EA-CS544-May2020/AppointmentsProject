@@ -19,11 +19,21 @@ public class User {
 	private Integer userid;
 	private String firstName;
 	private String lastName;
-	@Column(unique = true,length = 20)
+	@Column(unique = true, length = 20)
 	private String email;
 	private String gender;
 	private String username;
 	private String password;
+	@Column(name = "enabled", columnDefinition = "boolean default true", nullable = false)
+	private boolean enabled = true;
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
 
 	@ManyToMany
 	@JoinTable(name = "User_Role", joinColumns = { @JoinColumn(name = "userid") }, inverseJoinColumns = {
