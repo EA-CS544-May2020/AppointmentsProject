@@ -3,6 +3,7 @@ package cs544.project;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 
 //By using Springboot, we needn't any XML config, Java config
@@ -15,6 +16,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "cs544.project")
+@EnableAsync
 public class Application {
 
 	public static void main(String[] args) {
