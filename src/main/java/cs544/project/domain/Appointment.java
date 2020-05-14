@@ -1,7 +1,8 @@
 package cs544.project.domain;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -9,11 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -23,13 +21,11 @@ public class Appointment {
 	@GeneratedValue
 	private Integer id;
 	
-	@Temporal(TemporalType.DATE)
 	@JsonFormat(pattern="yyyy-MM-dd")
-	private Date date;
+	private LocalDate date;
 	
-	@Temporal(TemporalType.TIME)
 	@JsonFormat(pattern="HH:mm:ss")
-	private Date time;
+	private LocalTime time;
 	
 	private String location;
 	
@@ -43,25 +39,25 @@ public class Appointment {
 	
 	public Appointment() {}
 			
-	public Appointment(Date date, Date time, String location) {
+	public Appointment(LocalDate date, LocalTime time, String location) {
 		this.date = date;
 		this.time = time;
 		this.location = location;
 	}
 
-	public Date getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 
-	public Date getTime() {
+	public LocalTime getTime() {
 		return time;
 	}
 
-	public void setTime(Date time) {
+	public void setTime(LocalTime time) {
 		this.time = time;
 	}
 
